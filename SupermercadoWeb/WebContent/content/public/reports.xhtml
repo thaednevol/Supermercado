@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+	<div style="height: 500px">
+		<h:form>
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:panelGrid columns="1" style="margin: 5% auto;">
+				<f:facet name="header">
+					<p:row>
+						<p:column>Reportes</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:dataTable var="report" value="#{reportsView.reports}"
+					widgetVar="reportsTable"
+					emptyMessage="No reports found with given criteria"
+					filteredValue="#{reportsView.filteredReports}">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Search all fields:" />
+							<p:inputText id="globalFilter"
+								onkeyup="PF('reportsTable').filter()" style="width:150px"
+								placeholder="Enter keyword" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column filterBy="#{report.id}" headerText="Id"
+						footerText="contains" filterMatchMode="contains">
+						<h:outputText value="#{report.id}" />
+					</p:column>
+
+					<p:column filterBy="#{report.fecha}" headerText="Fecha"
+						footerText="lte" filterMatchMode="lte">
+						<f:facet name="filter">
+							<p:spinner onchange="PF('reportsTable').filter()"
+								styleClass="year-spinner">
+							</p:spinner>
+						</f:facet>
+						<h:outputText value="#{report.fecha}" />
+					</p:column>
+
+					<p:column filterBy="#{report.usuario}" headerText="Cliente"
+						footerText="exact" filterMatchMode="exact">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('reportsTable').filter()">
+								<f:selectItem itemLabel="Select One" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItems value="#{reportsView.clientes}" />
+							</p:selectOneMenu>
+						</f:facet>
+						<h:outputText value="#{report.usuario}" />
+					</p:column>
+
+					<p:column filterBy="#{report.supermercado}" headerText="Supermercado"
+						footerText="in" filterMatchMode="in">
+						<f:facet name="filter">
+							<p:selectCheckboxMenu label="Supermercado"
+								onchange="PF('reportsTable').filter()" panelStyle="width:125px"
+								scrollHeight="150">
+								<f:selectItems value="#{reportsView.supermercados}" />
+							</p:selectCheckboxMenu>
+						</f:facet>
+						<h:outputText value="#{report.supermercado}" />
+					</p:column>
+
+					<p:column filterBy="#{report.precio}" headerText="Precio"
+						footerText="custom (min)"
+						filterFunction="#{reportsView.filterByPrice}">
+						<h:outputText value="#{report.precio}">
+							<f:convertNumber currencySymbol="$" type="currency" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column style="width:32px;text-align: center">
+             			<p:commandButton icon="ui-icon-search" title="View">
+                		<f:setPropertyActionListener value="#{report}" target="#{reportsView.selectedReport}" />
+            		</p:commandButton>
+        </p:column>
+					
+				</p:dataTable>
+
+			</p:panelGrid>
+
+
+			<div style="clear: both" />
+		</h:form>
+	</div>
+</h:body>
+</html>

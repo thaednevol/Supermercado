@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body >
+<!-- <h:body style="background-image: url('../resources/img/supermarket_fondo.jpg');background-size:cover;background-repeat:no-repeat;"> -->
+	<h:form>
+		<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Fecha:" />
+				<h:outputLabel value="27 de Marzo de 2017" />
+				
+				<h:outputLabel value="Hora:" />
+				<h:outputLabel value="6:15am" />
+				
+				<h:outputLabel value="Id del beneficiario:" />
+				<p:inputText 
+					required="true" label="username" />
+
+				<h:outputLabel value="Supermercado:" />
+				<p:selectOneMenu style="width:125px">
+						<f:selectItem itemLabel="Supermercado Los Rosales" itemValue="" />
+						<f:selectItem itemLabel="10" itemValue="" />
+					</p:selectOneMenu>
+
+				<f:facet name="footer">
+					<p:commandButton value="Registrar" update="growl"
+						actionListener="#{userLoginView.login}"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+				</f:facet>
+			</h:panelGrid>
+
+		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+		<p:dialog header="Registro de compras" widgetVar="dlg" resizable="false" modal="true" visible="false" closable="false">
+			
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>
