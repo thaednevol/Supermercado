@@ -1,8 +1,12 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
+import java.io.Serializable;
 
-
-public class Producto {
+public class Producto implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7399769603479734475L;
 	private double precio;
 	private String  nombre;
 	private String  descripcion;

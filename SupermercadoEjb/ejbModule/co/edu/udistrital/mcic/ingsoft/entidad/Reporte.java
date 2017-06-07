@@ -1,11 +1,17 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class Reporte {
+public class Reporte implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4578665682368006705L;
+
 	private Usuario usuarioConsulta;
 	
 	private List<Compra> compras;

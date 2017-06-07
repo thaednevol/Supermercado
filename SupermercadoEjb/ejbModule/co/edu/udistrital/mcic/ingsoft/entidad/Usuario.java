@@ -1,5 +1,6 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,11 @@ import javax.persistence.*;
 @Table
 @Inheritance(strategy=InheritanceType.JOINED)
 
-
-
-
-public class Usuario {
+public class Usuario implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 413850548545052814L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;

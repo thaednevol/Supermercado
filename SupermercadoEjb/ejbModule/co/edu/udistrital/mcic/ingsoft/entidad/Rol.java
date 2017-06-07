@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table
 
 
-public class Rol implements Serializable{
+public class Rol implements Serializable {
 
 		
 	/**

@@ -2,6 +2,7 @@ package co.edu.udistrital.mcic.ingsoft.entidad;
 
 
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.*;
@@ -10,8 +11,12 @@ import javax.persistence.*;
 @Table
 
 
-public class Beneficiario extends Usuario {
+public class Beneficiario extends Usuario implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -390599931174298793L;
 	private double cupo;
 	private String dia;
 	private String horaInicio;

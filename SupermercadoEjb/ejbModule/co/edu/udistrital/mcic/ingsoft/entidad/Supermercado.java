@@ -1,5 +1,6 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
@@ -7,7 +8,11 @@ import javax.persistence.*;
 @Entity
 @Table
 
-public class Supermercado {
+public class Supermercado implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1136440761152843319L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;

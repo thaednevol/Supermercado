@@ -1,15 +1,20 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table
 
+public class AdministradorSupermercado extends Usuario implements Serializable{
 
-public class AdministradorSupermercado extends Usuario {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1346202986938582008L;
 	private String dia;
 	private String horaInicio;
 	private String horaFin;

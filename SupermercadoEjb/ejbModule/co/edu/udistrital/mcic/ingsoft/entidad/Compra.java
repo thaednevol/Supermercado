@@ -1,5 +1,6 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,12 @@ import javax.persistence.Table;
 @Entity
 @Table
 
-public class Compra {
+public class Compra implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4856381085803440597L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -23,11 +28,6 @@ public class Compra {
 	private Beneficiario beneficiario;
 	private List<Producto> productos = new ArrayList<Producto>();
 	private double total;
-	
-	
-	
-	
-	
 	
 	public double getTotal() {
 		return total;
