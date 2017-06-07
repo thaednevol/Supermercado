@@ -3,15 +3,33 @@ package co.edu.udistrital.mcic.ingsoft.negocioimpl;
 import java.util.List;
 
 import javax.ejb.Stateless;
-
+import javax.persistence.NoResultException;
 import co.edu.udistrital.mcic.ingsoft.entidad.AdministradorSupermercado;
 import co.edu.udistrital.mcic.ingsoft.entidad.Afiliado;
 import co.edu.udistrital.mcic.ingsoft.entidad.Beneficiario;
 import co.edu.udistrital.mcic.ingsoft.entidad.Cajero;
 import co.edu.udistrital.mcic.ingsoft.entidad.Usuario;
+import co.edu.udistrital.mcic.ingsoft.negocio.IGestorUsuario;
 
 @Stateless
-public class GestorUsuario {
+public class GestorUsuario extends Gestor implements IGestorUsuario{
+	
+	public Usuario obtenerUsuario(String nombre, String clave) {
+		try {
+//			return (Usuario) entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombre=:nombre AND u.clave=:clave",Usuario.class)
+//					.setParameter("nombre", nombre)
+//					.setParameter("clave", clave)
+					//.setParameter("dtype", Usuario.class)  //AND TYPE(u)=:dtype AND u.clave=:clave
+			//		.getSingleResult();
+			return (Usuario) entityManager.createNativeQuery("SELECT * FROM USUARIO WHERE nombre = ?1 AND clave = ?2",Usuario.class)
+					.setParameter(1, nombre).setParameter(2, clave).getSingleResult();
+		}
+		catch (NoResultException nre){
+			System.out.println("No se encontró usuario: "+nombre+" "+clave);
+			return null;
+		}
+	}
+	
 	
 	public Usuario obtenerUsuario (int id){
 		return null;
@@ -135,6 +153,4 @@ public class GestorUsuario {
 	public void eliminarAdministradorSupermercado (AdministradorSupermercado AdministradorSupermercado){
 		
 	}
-
-
 }

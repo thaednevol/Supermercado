@@ -1,6 +1,13 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
+import javax.persistence.Column;
+
 public class Cajero extends Usuario {
+	/**
+	 * 
+	 */
+	@Column(name = "CAJERO")
+	private static final long serialVersionUID = -4033703192476972801L;
 	private String dia;
 	private String horaInicio;
 	private String horaFin;

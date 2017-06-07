@@ -21,7 +21,7 @@ public class Permiso implements Serializable{
 	 */
 	private static final long serialVersionUID = 3475566652750735171L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private String modulo;
 	private String estado;

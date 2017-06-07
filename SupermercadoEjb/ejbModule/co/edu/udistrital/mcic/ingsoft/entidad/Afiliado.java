@@ -1,11 +1,9 @@
 package co.edu.udistrital.mcic.ingsoft.entidad;
 
-
-
-
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -17,6 +15,7 @@ public class Afiliado extends Usuario implements Serializable{
 	/**
 	 * 
 	 */
+	@Column(name = "AFILIADO")
 	private static final long serialVersionUID = 6554085417198232584L;
 	private int cupo;
 private List<Beneficiario> beneficiarios ;

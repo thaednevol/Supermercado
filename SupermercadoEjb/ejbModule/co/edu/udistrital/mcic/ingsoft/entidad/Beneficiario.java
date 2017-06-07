@@ -16,6 +16,7 @@ public class Beneficiario extends Usuario implements Serializable{
 	/**
 	 * 
 	 */
+	@Column(name = "BENEFICIARIO")
 	private static final long serialVersionUID = -390599931174298793L;
 	private double cupo;
 	private String dia;
@@ -23,9 +24,6 @@ public class Beneficiario extends Usuario implements Serializable{
 	private String horaFin;
 	private String codigo;
 	private Supermercado supermercado;
-	
-	
-	
 	
 	public Supermercado getSupermercado() {
 		return supermercado;

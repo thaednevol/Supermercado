@@ -23,7 +23,7 @@ public class Rol implements Serializable {
 	 */
 	private static final long serialVersionUID = -6289845792145984986L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private String nombre;
 	private List<Permiso> permisos=new ArrayList<Permiso>();
