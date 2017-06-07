@@ -1,10 +1,18 @@
-package co.edu.udistrital.mcic.ingsoft;
+package co.edu.udistrital.mcic.ingsoft.entidad;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
-@Entity@Table@Inheritance(strategy=InheritanceType.JOINED)
+@Entity
+@Table
+@Inheritance(strategy=InheritanceType.JOINED)
+
+
+
+
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,11 +24,18 @@ public class Usuario {
 	private String genero;
 	private String celular;
 	private String direccion;
+	private String correo;
 	private Rol rol;
 	
 	
 	public int getId() {
 		return id;
+	}
+	public String getCorreo() {
+		return correo;
+	}
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 	public void setId(int id) {
 		this.id = id;
@@ -74,6 +89,23 @@ public class Usuario {
 		this.rol = rol;
 	}
 
+	
+
+
+public boolean validarUsuario () {
+		return false;
+	}
+	
+
+public List<Rol> listarRol () {
+	
+	return new ArrayList<Rol> ();
+	
+	}
+
+public Usuario buscarUsuario(String identificacion){
+	return new Usuario();
+}
 	
 	
 }

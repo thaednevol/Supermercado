@@ -1,9 +1,13 @@
-package co.edu.udistrital.mcic.ingsoft;
+package co.edu.udistrital.mcic.ingsoft.controlador;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
+import co.edu.udistrital.mcic.ingsoft.entidad.Usuario;
 
+@ManagedBean
+@ViewScoped
 public class Inicio {
-
 	private String nombreUsuario;
 	private String clave;
 	private Usuario usuario;

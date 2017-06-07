@@ -1,4 +1,4 @@
-package co.edu.udistrital.mcic.ingsoft;
+package co.edu.udistrital.mcic.ingsoft.entidad;
 
 
 import java.io.Serializable;
@@ -26,12 +26,7 @@ public class Rol implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String nombre;
-	
-	private final List<Permiso> permisos;
-	
-	public Rol(){
-		this.permisos = new ArrayList<Permiso>();
-	}
+	private List<Permiso> permisos=new ArrayList<Permiso>();
 	
 	public int getId() {
 		return id;
@@ -45,15 +40,20 @@ public class Rol implements Serializable{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	public List<Permiso> getPermisos() {
+		return permisos;
+	}
+	public void setPermisos(List<Permiso> permisos) {
+		this.permisos = permisos;
+	}
+	
 	
 	public void agregarPermiso(Permiso p){
 		permisos.add(p);
-	}
-	
-	public void borrarPermiso(Permiso p){
+		}
+
+		public void borrarPermiso(Permiso p){
 		permisos.remove(p);
-	}
-	
-	
+		}
 	
 }
