@@ -8,6 +8,7 @@ import co.edu.udistrital.mcic.ingsoft.entidad.AdministradorSupermercado;
 import co.edu.udistrital.mcic.ingsoft.entidad.Afiliado;
 import co.edu.udistrital.mcic.ingsoft.entidad.Beneficiario;
 import co.edu.udistrital.mcic.ingsoft.entidad.Cajero;
+import co.edu.udistrital.mcic.ingsoft.entidad.Rol;
 import co.edu.udistrital.mcic.ingsoft.entidad.Usuario;
 import co.edu.udistrital.mcic.ingsoft.negocio.IGestorUsuario;
 
@@ -57,16 +58,32 @@ public class GestorUsuario extends Gestor implements IGestorUsuario{
 	
 	
 	public Beneficiario obtenerBeneficiario (int id){
-		return null;
+		try{
+			return entityManager.createQuery("SELECT b FROM Beneficiario b WHERE b.identificacion=:identificacion",Beneficiario.class).setParameter("identificacion", id+"").getSingleResult();
+		}
+		catch (Exception e){
+			return null;
+		}
+			 
 	}
 
 	
 	public List<Beneficiario> listarBeneficiario(){
-		return null;
+		//return (List<Beneficiario>)entityManager.createNativeQuery("SELECT * FROM USUARIO WHERE ROL_ID=3",Beneficiario.class)
+		//		.getResultList();
+		return (List<Beneficiario>)entityManager.createQuery("SELECT b FROM Beneficiario b",Beneficiario.class).getResultList();
 	}
 	
 	
-	public void crearBeneficiario (Beneficiario Beneficiario){
+	public void crearBeneficiario (Beneficiario beneficiario){
+		entityManager.getTransaction().begin();
+		Rol r = new Rol();
+		r.setId(3);
+		beneficiario.setRol(r);
+		entityManager.persist(beneficiario);
+		entityManager.getTransaction().commit();
+		
+		System.out.println("SE GUARDA -> "+beneficiario.getNombre());
 		
 	}
 	

@@ -6,8 +6,6 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
-
-
 	<div style="height: 500px">
 		<h:form>
 			<p:growl id="msgs" showDetail="true" />
@@ -15,37 +13,39 @@
 			<p:panelGrid columns="1" style="margin: 4% auto;">
 				<f:facet name="header">
 					<p:row>
-            			<p:column>Home</p:column>
+            			<p:column>Casita</p:column>
         			</p:row>
 				</f:facet>
 
 
-				<p:dashboard id="board" model="#{dashboardView.model}">
-					<p:ajax event="reorder" listener="#{dashboardView.handleReorder}"
+				<p:dashboard id="board" model="#{home.model}">
+					<p:ajax event="reorder" listener="#{home.handleReorder}"
 						update="msgs" />
 
 					<p:panel id="usersHome" header="Gestionar usuarios">
-						<img src="../resources/img/users.jpg" width="100%" height="100%" alt="This is the title" />
+						<img src="resources/img/users.jpg" width="100%" height="100%" alt="This is the title" />
 					</p:panel>
 
 					<p:panel id="reportsHome" header="Gestionar reportes">
-						<img src="../resources/img/reports.png" width="100%" height="100%" alt="This is the title" />
+						<img src="resources/img/reports.png" width="100%" height="100%" alt="This is the title" />
 					</p:panel>
 
 					<p:panel id="marketHome" header="Gestionar supermercados">
-						<img src="../resources/img/supermarket.png" width="100%" height="100%" alt="This is the title" />
+						<img src="resources/img/supermarket.png" width="100%" height="100%" alt="This is the title" />
 					</p:panel>
 
 					<p:panel id="shoppingHome" header="Registrar compras">
-						<img src="../resources/img/shopping.png" width="100%" height="100%" alt="This is the title" />
+						<img src="resources/img/afiliados.jpg" width="100%" height="100%" alt="This is the title" />
 					</p:panel>
 					
 					<p:panel id="affiliatesHome" header="Gestionar afiliados">
-						<img src="../resources/img/afiliados.jpg" width="103%" height="103%" alt="This is the title" />
+						<img src="resources/img/afiliados.jpg" width="103%" height="103%" alt="This is the title" />
 					</p:panel>
 					
 					<p:panel id="beneficiariesHome" header="Gestionar beneficiarios">
-						<img src="../resources/img/comprador.jpg" width="103%" height="103%" alt="This is the title" />
+						<p:commandLink action="#{home.gestionBeneficiarios}">
+							<img src="resources/img/comprador.jpg" width="103%" height="103%" alt="This is the title" />
+						</p:commandLink>
 					</p:panel>
 					
 				</p:dashboard>

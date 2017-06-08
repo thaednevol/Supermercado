@@ -7,6 +7,7 @@
 <h:head></h:head>
 <h:body>
 	<h:form>
+		<f:event type="preRenderView" listener="#{inicio.checkAlreadyLoggedin}" />
 
 		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
@@ -22,7 +23,10 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Ingresar" update="growl"
-						actionListener="#{inicio.login}"
+						action="#{inicio.login}"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+					<p:commandButton value="Generar" update="growl"
+						action="#{inicio.populate}"
 						oncomplete="handleLoginRequest(xhr, status, args)" />
 				</f:facet>
 			</h:panelGrid>

@@ -1,11 +1,16 @@
 package co.edu.udistrital.mcic.ingsoft.controlador;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
+import co.edu.udistrital.mcic.ingsoft.entidad.Beneficiario;
 import co.edu.udistrital.mcic.ingsoft.entidad.Usuario;
 import co.edu.udistrital.mcic.ingsoft.servicios.UsuarioServicios;
 import co.edu.udistrital.mcic.ingsoft.utilidades.SessionUtils;
@@ -24,7 +29,7 @@ public class Inicio {
 		if (usuario!= null){
 			HttpSession session = SessionUtils.getSession();
 			session.setAttribute("username", usuario.getNombre());
-			System.out.println("ALGO!!!! "+usuario.getRol().getNombre());
+			session.setAttribute("rol", usuario.getRol().getNombre());
 			return usuario.getRol().getNombre();
 		}
 		else {
@@ -39,7 +44,9 @@ public class Inicio {
 	
 	public String logout() {
 		HttpSession session = SessionUtils.getSession();
-		session.invalidate();
+		if (session!=null){
+			session.invalidate();
+		}
 		return "login";
 	}
 	
@@ -81,6 +88,41 @@ public class Inicio {
 		this.servicio = servicio;
 	}
 	
+	public void checkAlreadyLoggedin() throws IOException {
+		HttpSession session = SessionUtils.getSession();
+		if (session!=null){
+			if(session.getAttribute("rol")!=null){
+				String rol=(String) session.getAttribute("rol");
+				if (rol.equals("admin")){
+					ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+					ec.redirect(ec.getRequestContextPath() + "/home.xhtml");
+				}
+			}
+		}
+//	    if (isLoggedIn()) {
+//	        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//	        ec.redirect(ec.getRequestContextPath() + "/home.xhtml");
+//	    }
+	}
 	
+	public void populate(ActionEvent actionEvent){
+		Beneficiario b = new Beneficiario();
+		b.setNombre("Luisa");
+		b.setApellido("Quiroga");
+		b.setIdentificacion("10234567");
+		b.setFechaNacimiento(java.sql.Date.valueOf( "2010-01-31" ));
+		b.setGenero("F");
+		b.setCelular("3003748669");
+		b.setDireccion("Calle 1 No 2 3");
+		b.setCorreo("lfquiroga@correo.com");
+		b.setClave("123");
+		b.setCupo(10);
+		b.setDia("D");
+		b.setHoraInicio("8:00");
+		b.setHoraFin("16:00");
+		b.setCodigo("123");
+		
+		servicio.guardarBeneficiario(b);
+	}
 	
 }

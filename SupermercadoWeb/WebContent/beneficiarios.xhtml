@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+	<div style="height: 500px">
+		<h:form>
+			<p:growl id="msgs" showDetail="true" />
+			<p:growl id="growl" showDetail="true" />
+
+
+			<p:commandButton value="Crear" type="button"
+				onclick="PF('dlgCrearBeneficiario').show();" />
+
+
+			<p:commandButton value="Salir" update="growl"
+				action="#{inicio.logout}"
+				oncomplete="handleLoginRequest(xhr, status, args)" />
+
+			<p:dialog header="Crear beneficiario" id="dlgCrearBeneficiario"
+				widgetVar="dlgCrearBeneficiario" modal="true" visible="true">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<p:panelGrid columns="2">
+					<p:inputText id="nombre"
+						value="#{beneficiarioController.nuevoBeneficiario.nombre}"
+						label="nombre" />
+					<p:inputText id="apellido"
+						value="#{beneficiarioController.nuevoBeneficiario.apellido}"
+						label="apellido" />
+					<p:inputText id="identificacion"
+						value="#{beneficiarioController.nuevoBeneficiario.identificacion}"
+						label="identificacion" />
+					<p:calendar id="fechaNacimiento"
+						value="#{beneficiarioController.fechaTemp}"
+						label="fechaNacimiento" />
+					<p:inputText id="genero"
+						value="#{beneficiarioController.nuevoBeneficiario.genero}"
+						label="genero" />
+					<p:inputText id="celular"
+						value="#{beneficiarioController.nuevoBeneficiario.celular}"
+						label="celular" />
+					<p:inputText id="direccion"
+						value="#{beneficiarioController.nuevoBeneficiario.direccion}"
+						label="direccion" />
+					<p:inputText id="correo"
+						value="#{beneficiarioController.nuevoBeneficiario.correo}"
+						label="correo" />
+					<p:password id="clave"
+						value="#{beneficiarioController.nuevoBeneficiario.clave}"
+						label="clave" feedback="true" />
+
+					<p:commandButton value="Guardar"
+						action="#{beneficiarioController.guardar}"
+						oncomplete="PF('dlgCrearBeneficiario').hide()"
+						update="pgBeneficiario"/>
+				</p:panelGrid>
+				<p:watermark for="nombre" value="Nombre" id="wNombre" />
+				<p:watermark for="apellido" value="Apellido" id="wApellido" />
+				<p:watermark for="identificacion" value="Identificacion"
+					id="wIdentificacion" />
+				<p:watermark for="fechaNacimiento" value="FechaNacimiento"
+					id="wFechaNacimiento" />
+				<p:watermark for="genero" value="Genero" id="wGenero" />
+				<p:watermark for="celular" value="Celular" id="wCelular" />
+				<p:watermark for="direccion" value="Direccion" id="wDireccion" />
+				<p:watermark for="correo" value="Correo" id="wCorreo" />
+				<p:watermark for="clave" value="Clave" id="wClave" />
+			</p:dialog>
+
+			<p:panelGrid id="pgBeneficiario" columns="1" style="margin: 5% auto;">
+				<f:facet name="header">
+					<p:row>
+						<p:column>Beneficiarios</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:dataTable var="b" value="#{beneficiarioController.beneficiarios}"
+					widgetVar="beneficiariosTable"
+					emptyMessage="No users found with given criteria"
+					filteredValue="#{beneficiarioController.filtered}">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Search all fields:" />
+							<p:inputText id="globalFilter"
+								onkeyup="PF('beneficiariosTable').filter()" style="width:150px"
+								placeholder="Enter keyword" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column filterBy="#{b.id}" headerText="Id" footerText="contains"
+						filterMatchMode="contains">
+						<h:outputText value="#{b.id}" />
+					</p:column>
+
+					<p:column filterBy="#{b.nombre}" headerText="Nombre"
+						footerText="contains" filterMatchMode="contains">
+						<h:outputText value="#{b.nombre}" />
+					</p:column>
+
+					<p:column filterBy="#{b.apellido}" headerText="Apellido"
+						footerText="contains" filterMatchMode="contains">
+						<h:outputText value="#{b.apellido}" />
+					</p:column>
+				</p:dataTable>
+
+			</p:panelGrid>
+
+
+			<div style="clear: both" />
+		</h:form>
+	</div>
+</h:body>
+</html>

@@ -13,7 +13,8 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/SupermercadoEjb"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SupermercadoEjbClient"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SupermercadoEjb"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-6.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

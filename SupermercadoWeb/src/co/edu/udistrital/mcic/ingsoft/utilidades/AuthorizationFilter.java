@@ -34,20 +34,17 @@ public class AuthorizationFilter implements Filter {
 			HttpSession ses = reqt.getSession(false);
 			String reqURI = reqt.getRequestURI();
 			
-			System.out.println((reqURI.indexOf("/index.xhtml") >= 0));
-			//+" "+(ses != null)+" "
-			//+(ses.getAttribute("username"))+" "+(reqURI.indexOf("/public/"))+" "+(reqURI.contains("javax.faces.resource")));
+			System.out.println(reqURI+" "+reqt.getContextPath());
 			
 			if (reqURI.indexOf("/index.xhtml") >= 0 || (ses != null && ses.getAttribute("username") != null)
-					|| reqURI.indexOf("/public/") >= 0 || reqURI.contains("javax.faces.resource")){
-				chain.doFilter(request, response);
-
-				System.out.println("SE METE AQUI"+reqURI);
-				
+					|| reqURI.indexOf(reqt.getContextPath()) >= 0 || reqURI.contains("javax.faces.resource")){
+					chain.doFilter(request, response);
 			}
 				
-			else
-				resp.sendRedirect(reqt.getContextPath() + "/content/public/index.xhtml");
+			else {
+				resp.sendRedirect(reqt.getContextPath() + "/index.xhtml");
+			}
+				
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
