@@ -6,8 +6,11 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:form id="formCompra">
+	<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+	
+
 	<h:panelGrid columns="2">
-		<h:panelGrid columns="2" cellpadding="5">
+		<h:panelGrid id="pgRegistroCompra" columns="2" cellpadding="5">
 			<h:outputLabel value="Fecha:" />
 			<p:calendar id="fechaCompra" widgetVar="fechaCompra"
 				value="#{compraController.fechaCompra}"
@@ -18,7 +21,8 @@
 				pattern="HH:mm" timeOnly="true" />
 
 			<h:outputLabel value="Id del beneficiario:" />
-			<p:inputText value="#{compraController.identificacionBeneficiario}" required="true" label="username" />
+			<p:inputText value="#{compraController.identificacionBeneficiario}"
+				required="true" label="username" />
 
 			<h:outputLabel value="Supermercado:" />
 			<p:selectOneMenu id="supermercado"
@@ -27,12 +31,12 @@
 				<f:selectItems value="#{compraController.supermercados}" />
 			</p:selectOneMenu>
 			<f:facet name="footer">
-				<p:commandButton value="Registrar" update="pgCompra"
-					actionListener="#{compraController.registrarCompra}"/>
+				<p:commandButton value="Registrar" update="pgCompra" process="pgRegistroCompra"
+					actionListener="#{compraController.registrarCompra}" />
 			</f:facet>
 		</h:panelGrid>
 
-		<p:panelGrid id="pgCompra" columns="1" style="margin: 5% auto;">
+		<p:panelGrid id="pgCompra" columns="1" style="margin: 1% auto;">
 			<f:facet name="header">
 				<p:row>
 					<p:column>Beneficiarios</p:column>
@@ -42,7 +46,10 @@
 			<p:dataTable id="comprasTable" var="com"
 				value="#{compraController.compras}" widgetVar="comprasTable"
 				emptyMessage="No se encontraron compras"
-				filteredValue="#{comprasController.filtered}">
+				filteredValue="#{comprasController.filtered}" rows="10"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10">
 
 				<f:facet name="header">
 					<p:outputPanel>
@@ -73,15 +80,94 @@
 					filterMatchMode="contains">
 					<h:outputText value="#{com.total}" />
 				</p:column>
+				<p:column headerText="Comprar">
+					<p:commandButton 
+						id="cbComprar"
+						update="formCompra:opDlgCompra" oncomplete="PF('dlgCompra').show()"
+						icon="ui-icon-search" title="View"
+						action="#{compraController.showCompra}"
+						process="@this">
+						<f:setPropertyActionListener value="#{com}"
+							target="#{compraController.compra}" />
+					</p:commandButton>
+				</p:column>
 			</p:dataTable>
 		</p:panelGrid>
 	</h:panelGrid>
 
-	<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-	<p:dialog header="Registro de compras" widgetVar="dlg"
-		resizable="false" modal="true" visible="false" closable="false">
+	<p:dialog id="dlgCompra" widgetVar="dlgCompra"
+		header="Registro de compra:" resizable="false" modal="true"
+		visible="false" closable="true" position="top">
+		<p:growl id="growl2" sticky="true" showDetail="true" life="3000" />
+		<p:outputPanel id="opDlgCompra">
+		<h:panelGrid columns="2">
+			<h:panelGrid columns="1">
+				<h:outputText value="Compra No:#{compraController.compra.beneficiario.nombre}" />
+				<p:outputLabel for="producto" value="Seleccione el producto:" />
+				<p:selectOneMenu id="producto"
+					value="#{compraController.productoSel}" style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="-1" />
+					<f:selectItems value="#{compraController.productos}" />
+					<f:ajax listener="#{compraController.listener}" render="result" />
+				</p:selectOneMenu>
+				<p:commandButton immediate="true" update="formCompra:opProductos opBotones"
+					action="#{compraController.agregarProducto}"
+					icon="ui-icon-plus" label="Agregar" title="Agregar">
+				</p:commandButton>
+				<h:panelGrid columns="1" id="result">
+					<h:outputText value="#{compraController.producto.descripcion}" />
+					<h:outputText value="$#{compraController.producto.precio}" />
+				</h:panelGrid>
+			</h:panelGrid>
 
+			<p:outputPanel id="opProductos">
+				<p:dataTable id="productosTable" var="pro"
+					value="#{compraController.compra.productos}" widgetVar="productosTable"
+					emptyMessage="No se encontraron productos" rows="5" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10">
+					<p:column 
+						headerText="Producto">
+					<h:outputText value="#{pro.nombre}"/>
+					</p:column>
+					<p:column 
+						headerText="Descripcion">
+					<h:outputText value="#{pro.descripcion}"/>
+					</p:column>
+					<p:column 
+						headerText="Precio">
+					<h:outputText value="#{pro.precio}"/>
+					</p:column>
+					<p:column>
+						<p:commandButton 
+							immediate="true"
+							update="formCompra:opProductos"
+							action="#{compraController.restarProducto(pro)}"
+							icon="ui-icon-close" label="Restar" title="Restar"/>
+					</p:column>
+					<f:facet name="footer">
+        				Total: $#{compraController.compra.total}
+    				</f:facet>
+				</p:dataTable>
+			</p:outputPanel>
+		</h:panelGrid>
+			<p:outputPanel id="opBotones" style="text-align: center;" >
+				<p:commandButton 
+					rendered="#{compraController.compra.productos.size()>0}" 
+					update="formCompra:pgCompra growl2"
+					process="@this"
+					action="#{compraController.confirmarCompra}"
+					value="Comprar" label="Comprar" title="Comprar" >
+				</p:commandButton>
+				<p:commandButton
+					process="@this"
+					update="formCompra:pgCompra"
+					oncomplete="PF('dlgCompra').hide();"
+					value="Cancelar"  label="Cancel" title="Cancel">
+				</p:commandButton>
+			</p:outputPanel>
+		</p:outputPanel>
 	</p:dialog>
 </h:form>
 </html>

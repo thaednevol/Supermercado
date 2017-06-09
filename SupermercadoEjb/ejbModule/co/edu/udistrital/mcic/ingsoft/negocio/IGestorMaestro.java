@@ -29,6 +29,6 @@ public interface IGestorMaestro {
 	public Compra obtenerCompra (int id);	
 	public List<Compra> listarCompra();
 	public void crearCompra (Compra Compra);
-	public void actualizarCompra (Compra Compra);
+	public boolean actualizarCompra (Compra Compra);
 	public void eliminarCompra (Compra Compra);
 }

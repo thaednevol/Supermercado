@@ -2,6 +2,7 @@ package co.edu.udistrital.mcic.ingsoft.entidad;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Compra implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private Date fecha;
-	private Date hora;
+	private Time hora;
 	private Beneficiario beneficiario;
 	private List<Producto> productos = new ArrayList<Producto>();
 	private double total;
@@ -52,11 +53,11 @@ public class Compra implements Serializable{
 		this.fecha = fecha;
 	}
 
-	public Date getHora() {
+	public Time getHora() {
 		return hora;
 	}
 
-	public void setHora(Date hora) {
+	public void setHora(Time hora) {
 		this.hora = hora;
 	}
 
@@ -82,6 +83,9 @@ public class Compra implements Serializable{
 	}
 
 	public void agregarProducto(Producto producto) {
+		if (productos==null){
+			productos = new ArrayList<Producto>();
+		}
 		productos.add(producto);
 	}
 
@@ -96,17 +100,16 @@ public class Compra implements Serializable{
 		
 	}
 
-	
-
 	public void restarProducto(Producto producto) {
 		productos.remove(producto);
 	}
 
 	public void calcularTotal() {
+		double t=0;
 		for (Producto p:productos){
-			total=total+p.getPrecio();
+			t=t+p.getPrecio();
 		}
-		
+		total=t;
 	}
 	
 
@@ -116,6 +119,9 @@ public class Compra implements Serializable{
 	}
 
 	public boolean validarCupoParcial() {
+		if(this.total<this.beneficiario.getCupo())
+			return true;
+		
 		return false;
 	}
 

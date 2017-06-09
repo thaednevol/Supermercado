@@ -130,8 +130,24 @@ public class GestorMaestro extends Gestor implements IGestorMaestro{
 	}
 
 	@Override
-	public void actualizarCompra(Compra Compra) {
-		// TODO Auto-generated method stub
+	public boolean actualizarCompra(Compra compra) {
+		try {
+			Compra c=entityManager.find(Compra.class, compra.getId());
+			entityManager.getTransaction().begin();
+			c.setBeneficiario(compra.getBeneficiario());
+			c.setFecha(compra.getFecha());
+			c.setHora(compra.getHora());
+			c.setProductos(compra.getProductos());
+			c.setTotal(compra.getTotal());
+			entityManager.getTransaction().commit();
+			return true;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		
 		
 	}
 
