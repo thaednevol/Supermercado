@@ -20,6 +20,7 @@ public class UsuarioServicios {
 	}
 
 	public void guardarBeneficiario(Beneficiario b) {
+		System.out.println("GUARDO->"+b.getNombre());
 		IGestorUsuario gestor = new GestorUsuario();
 		gestor.crearBeneficiario(b);
 		
@@ -28,5 +29,11 @@ public class UsuarioServicios {
 	public Beneficiario consultarBeneficiario(String identificacion) {
 		IGestorUsuario gestor = new GestorUsuario();
 		return gestor.obtenerBeneficiario(Integer.parseInt(identificacion));
+	}
+
+	public void modificarBeneficiario(Beneficiario modificadoBeneficiario) {
+		IGestorUsuario gestor = new GestorUsuario();
+		gestor.actualizarBeneficiario(modificadoBeneficiario);
+		
 	}
 }

@@ -5,38 +5,83 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
-<h:body >
-<!-- <h:body style="background-image: url('../resources/img/supermarket_fondo.jpg');background-size:cover;background-repeat:no-repeat;"> -->
-	<h:form>
+<h:form id="formCompra">
+	<h:panelGrid columns="2">
 		<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Fecha:" />
-				<h:outputLabel value="27 de Marzo de 2017" />
-				
-				<h:outputLabel value="Hora:" />
-				<h:outputLabel value="6:15am" />
-				
-				<h:outputLabel value="Id del beneficiario:" />
-				<p:inputText 
-					required="true" label="username" />
+			<h:outputLabel value="Fecha:" />
+			<p:calendar id="fechaCompra" widgetVar="fechaCompra"
+				value="#{compraController.fechaCompra}"
+				mindate="fechaCompra.today()" />
 
-				<h:outputLabel value="Supermercado:" />
-				<p:selectOneMenu style="width:125px">
-						<f:selectItem itemLabel="Supermercado Los Rosales" itemValue="" />
-						<f:selectItem itemLabel="10" itemValue="" />
-					</p:selectOneMenu>
+			<h:outputLabel value="Hora:" />
+			<p:calendar id="hora" value="#{compraController.horaCompra}"
+				pattern="HH:mm" timeOnly="true" />
 
-				<f:facet name="footer">
-					<p:commandButton value="Registrar" update="growl"
-						actionListener="#{userLoginView.login}"
-						oncomplete="handleLoginRequest(xhr, status, args)" />
+			<h:outputLabel value="Id del beneficiario:" />
+			<p:inputText value="#{compraController.identificacionBeneficiario}" required="true" label="username" />
+
+			<h:outputLabel value="Supermercado:" />
+			<p:selectOneMenu id="supermercado"
+				value="#{compraController.supermercadoTemp}"
+				panelStyle="width:180px" effect="fade" style="width:160px">
+				<f:selectItems value="#{compraController.supermercados}" />
+			</p:selectOneMenu>
+			<f:facet name="footer">
+				<p:commandButton value="Registrar" update="pgCompra"
+					actionListener="#{compraController.registrarCompra}"/>
+			</f:facet>
+		</h:panelGrid>
+
+		<p:panelGrid id="pgCompra" columns="1" style="margin: 5% auto;">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Beneficiarios</p:column>
+				</p:row>
+			</f:facet>
+
+			<p:dataTable id="comprasTable" var="com"
+				value="#{compraController.compras}" widgetVar="comprasTable"
+				emptyMessage="No se encontraron compras"
+				filteredValue="#{comprasController.filtered}">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Search all fields:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('comprasTable').filter()" style="width:150px"
+							placeholder="Buscar" />
+					</p:outputPanel>
 				</f:facet>
-			</h:panelGrid>
 
-		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+				<p:column headerText="Fecha" filterBy="#{com.fecha}"
+					filterMatchMode="contains">
+					<h:outputText value="#{com.fecha}" />
+				</p:column>
 
-		<p:dialog header="Registro de compras" widgetVar="dlg" resizable="false" modal="true" visible="false" closable="false">
-			
-		</p:dialog>
-	</h:form>
-</h:body>
+				<p:column headerText="Hora" filterBy="#{com.hora}"
+					filterMatchMode="contains">
+					<h:outputText value="#{com.hora}" />
+				</p:column>
+
+				<p:column headerText="Usuario"
+					filterBy="#{com.beneficiario.identificacion}"
+					filterMatchMode="contains">
+					<h:outputText value="#{com.beneficiario.identificacion}" />
+				</p:column>
+
+				<p:column headerText="Total" filterBy="#{com.total}"
+					filterMatchMode="contains">
+					<h:outputText value="#{com.total}" />
+				</p:column>
+			</p:dataTable>
+		</p:panelGrid>
+	</h:panelGrid>
+
+	<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+	<p:dialog header="Registro de compras" widgetVar="dlg"
+		resizable="false" modal="true" visible="false" closable="false">
+
+	</p:dialog>
+</h:form>
 </html>

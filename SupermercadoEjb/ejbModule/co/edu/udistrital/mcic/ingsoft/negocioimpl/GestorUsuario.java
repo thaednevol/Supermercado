@@ -58,14 +58,15 @@ public class GestorUsuario extends Gestor implements IGestorUsuario{
 	
 	
 	public Beneficiario obtenerBeneficiario (int id){
-		try{
+		List<Beneficiario> a = entityManager.createQuery("SELECT b FROM Beneficiario b WHERE b.identificacion=:identificacion",Beneficiario.class)
+				.setParameter("identificacion", id+"").getResultList();
+		
+		if (!a.isEmpty()){
 			return entityManager.createQuery("SELECT b FROM Beneficiario b WHERE b.identificacion=:identificacion",Beneficiario.class).setParameter("identificacion", id+"").getSingleResult();
 		}
-		catch (Exception e){
-			e.printStackTrace();
+		else {
 			return null;
 		}
-			 
 	}
 
 	
@@ -82,16 +83,14 @@ public class GestorUsuario extends Gestor implements IGestorUsuario{
 		r.setId(3);
 		beneficiario.setRol(r);
 		entityManager.persist(beneficiario);
-		
 		entityManager.getTransaction().commit();
-		
-		System.out.println("SE GUARDA -> "+beneficiario.getNombre());
-		
+		System.out.println("GUARDO->"+beneficiario.getNombre());
 	}
 	
 	
-	public void actualizarBeneficiario (Beneficiario Beneficiario){
-		
+	public void actualizarBeneficiario (Beneficiario beneficiario){
+		entityManager.getTransaction().begin();
+		entityManager.getTransaction().commit();
 	}
 	
 	public void eliminarBeneficiario (Beneficiario Beneficiario){

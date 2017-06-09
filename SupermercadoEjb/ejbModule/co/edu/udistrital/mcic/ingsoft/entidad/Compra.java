@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-
 public class Compra implements Serializable{
 
 	/**
@@ -21,7 +20,7 @@ public class Compra implements Serializable{
 	 */
 	private static final long serialVersionUID = 4856381085803440597L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private Date fecha;
 	private Date hora;
@@ -109,6 +108,8 @@ public class Compra implements Serializable{
 		}
 		
 	}
+	
+
 
 	public boolean validarCupoGlobal() {
 		return false;
