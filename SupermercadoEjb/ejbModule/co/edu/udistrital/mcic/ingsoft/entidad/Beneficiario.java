@@ -5,14 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "BENEFICIARIO")
 public class Beneficiario extends Usuario {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3017578505637885314L;
-	/**
-	 * 
-	 */
 	private double cupo;
 	private String dia;
 	private String horaInicio;
@@ -35,8 +28,6 @@ public class Beneficiario extends Usuario {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
-
-	
 
 	public String getDia() {
 		return dia;

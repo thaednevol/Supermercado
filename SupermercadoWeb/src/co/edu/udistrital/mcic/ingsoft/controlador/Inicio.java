@@ -9,10 +9,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-
-import co.edu.udistrital.mcic.ingsoft.entidad.Beneficiario;
 import co.edu.udistrital.mcic.ingsoft.entidad.Usuario;
 import co.edu.udistrital.mcic.ingsoft.servicios.UsuarioServicios;
+import co.edu.udistrital.mcic.ingsoft.utilidades.Generador;
 import co.edu.udistrital.mcic.ingsoft.utilidades.SessionUtils;
 
 @ManagedBean
@@ -106,23 +105,7 @@ public class Inicio {
 	}
 	
 	public void populate(ActionEvent actionEvent){
-		Beneficiario b = new Beneficiario();
-		b.setNombre("Luisa");
-		b.setApellido("Quiroga");
-		b.setIdentificacion("10234567");
-		b.setFechaNacimiento(java.sql.Date.valueOf( "2010-01-31" ));
-		b.setGenero("F");
-		b.setCelular("3003748669");
-		b.setDireccion("Calle 1 No 2 3");
-		b.setCorreo("lfquiroga@correo.com");
-		b.setClave("123");
-		b.setCupo(10);
-		b.setDia("D");
-		b.setHoraInicio("8:00");
-		b.setHoraFin("16:00");
-		b.setCodigo("123");
-		
-		servicio.guardarBeneficiario(b);
+		Generador generador = new Generador();
+		generador.generar();
 	}
-	
 }

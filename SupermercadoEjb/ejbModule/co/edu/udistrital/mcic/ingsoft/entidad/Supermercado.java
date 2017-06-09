@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Table
-
 public class Supermercado implements Serializable{
 	/**
 	 * 

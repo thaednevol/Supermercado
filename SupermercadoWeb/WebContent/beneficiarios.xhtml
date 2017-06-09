@@ -5,114 +5,198 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
-<h:body>
-	<div style="height: 500px">
-		<h:form>
-			<p:growl id="msgs" showDetail="true" />
-			<p:growl id="growl" showDetail="true" />
+<h:form id="formBeneficiarios">
+		<p:growl id="msgs" showDetail="true" />
+		<p:growl id="growl" showDetail="true" />
 
 
-			<p:commandButton value="Crear" type="button"
-				onclick="PF('dlgCrearBeneficiario').show();" />
+		<p:commandButton value="Crear" type="button"
+			onclick="PF('dlgCrearBeneficiario').show();" />
 
 
-			<p:commandButton value="Salir" update="growl"
-				action="#{inicio.logout}"
-				oncomplete="handleLoginRequest(xhr, status, args)" />
+		<p:commandButton value="Salir" update="growl"
+			action="#{inicio.logout}"
+			oncomplete="handleLoginRequest(xhr, status, args)" />
 
-			<p:dialog header="Crear beneficiario" id="dlgCrearBeneficiario"
-				widgetVar="dlgCrearBeneficiario" modal="true" visible="true">
-				<p:messages id="messages" showDetail="true" autoUpdate="true"
-					closable="true" />
-				<p:panelGrid columns="2">
-					<p:inputText id="nombre"
-						value="#{beneficiarioController.nuevoBeneficiario.nombre}"
-						label="nombre" />
-					<p:inputText id="apellido"
-						value="#{beneficiarioController.nuevoBeneficiario.apellido}"
-						label="apellido" />
-					<p:inputText id="identificacion"
-						value="#{beneficiarioController.nuevoBeneficiario.identificacion}"
-						label="identificacion" />
-					<p:calendar id="fechaNacimiento"
-						value="#{beneficiarioController.fechaTemp}"
-						label="fechaNacimiento" />
-					<p:inputText id="genero"
-						value="#{beneficiarioController.nuevoBeneficiario.genero}"
-						label="genero" />
-					<p:inputText id="celular"
-						value="#{beneficiarioController.nuevoBeneficiario.celular}"
-						label="celular" />
-					<p:inputText id="direccion"
-						value="#{beneficiarioController.nuevoBeneficiario.direccion}"
-						label="direccion" />
-					<p:inputText id="correo"
-						value="#{beneficiarioController.nuevoBeneficiario.correo}"
-						label="correo" />
-					<p:password id="clave"
-						value="#{beneficiarioController.nuevoBeneficiario.clave}"
-						label="clave" feedback="true" />
-
-					<p:commandButton value="Guardar"
-						action="#{beneficiarioController.guardar}"
-						oncomplete="PF('dlgCrearBeneficiario').hide()"
-						update="pgBeneficiario"/>
-				</p:panelGrid>
-				<p:watermark for="nombre" value="Nombre" id="wNombre" />
-				<p:watermark for="apellido" value="Apellido" id="wApellido" />
-				<p:watermark for="identificacion" value="Identificacion"
-					id="wIdentificacion" />
-				<p:watermark for="fechaNacimiento" value="FechaNacimiento"
-					id="wFechaNacimiento" />
-				<p:watermark for="genero" value="Genero" id="wGenero" />
-				<p:watermark for="celular" value="Celular" id="wCelular" />
-				<p:watermark for="direccion" value="Direccion" id="wDireccion" />
-				<p:watermark for="correo" value="Correo" id="wCorreo" />
-				<p:watermark for="clave" value="Clave" id="wClave" />
-			</p:dialog>
-
-			<p:panelGrid id="pgBeneficiario" columns="1" style="margin: 5% auto;">
+		<p:panelGrid id="pgBeneficiario" columns="1" style="margin: 5% auto;">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Beneficiarios</p:column>
+				</p:row>
+			</f:facet>
+			
+			<p:dataTable id="beneficiariosTable" var="ben" value="#{beneficiarioController.beneficiarios}"
+				widgetVar="beneficiariosTable"
+				emptyMessage="No seencontraron usuarios"
+				filteredValue="#{beneficiarioController.filtered}">
+	
 				<f:facet name="header">
-					<p:row>
-						<p:column>Beneficiarios</p:column>
-					</p:row>
+					<p:outputPanel>
+						<h:outputText value="Search all fields:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('beneficiariosTable').filter()" style="width:150px"
+							placeholder="Buscar" />
+					</p:outputPanel>
 				</f:facet>
 
-				<p:dataTable var="b" value="#{beneficiarioController.beneficiarios}"
-					widgetVar="beneficiariosTable"
-					emptyMessage="No users found with given criteria"
-					filteredValue="#{beneficiarioController.filtered}">
+				<p:column headerText="Id" filterBy="#{ben.identificacion}" filterMatchMode="contains">
+					<h:outputText value="#{ben.identificacion}" />
+				</p:column>
 
-					<f:facet name="header">
-						<p:outputPanel>
-							<h:outputText value="Search all fields:" />
-							<p:inputText id="globalFilter"
-								onkeyup="PF('beneficiariosTable').filter()" style="width:150px"
-								placeholder="Enter keyword" />
-						</p:outputPanel>
-					</f:facet>
+				<p:column filterBy="#{ben.nombre}" headerText="Nombre" filterMatchMode="contains">
+					<h:outputText value="#{ben.nombre}" />
+				</p:column>
 
-					<p:column filterBy="#{b.id}" headerText="Id" footerText="contains"
-						filterMatchMode="contains">
-						<h:outputText value="#{b.id}" />
-					</p:column>
+				<p:column filterBy="#{ben.apellido}" headerText="Apellido" filterMatchMode="contains">
+					<h:outputText value="#{ben.apellido}" />
+				</p:column>
+				<p:column headerText="Fecha Nacimiento">
+					<h:outputText value="#{ben.fechaNacimiento}" />
+				</p:column>
+				<p:column headerText="Género" filterBy="#{ben.genero}" filterMatchMode="contains">
+					<h:outputText value="#{ben.genero}" />
+				</p:column>
+				<p:column headerText="Celular">
+					<h:outputText value="#{ben.celular}" />
+				</p:column>
+				<p:column headerText="Dirección">
+					<h:outputText value="#{ben.direccion}" />
+				</p:column>
+				<p:column headerText="Correo">
+					<h:outputText value="#{ben.correo}" />
+				</p:column>
+				<p:column headerText="Editar" style="width:32px;text-align: center">
+					<p:commandButton id="cbEditar" update=":formBeneficiarios:panelEditarBeneficiario"
+						oncomplete="PF('dlgEditarBeneficiario').show()"
+						icon="ui-icon-search" title="Modificar">
+						<f:setPropertyActionListener value="#{ben}"
+							target="#{beneficiarioController.modificadoBeneficiario}"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:panelGrid>
 
-					<p:column filterBy="#{b.nombre}" headerText="Nombre"
-						footerText="contains" filterMatchMode="contains">
-						<h:outputText value="#{b.nombre}" />
-					</p:column>
+		<p:dialog header="Editar beneficiario" id="dlgEditarBeneficiario"
+			widgetVar="dlgEditarBeneficiario" modal="true"  >
+			<p:outputPanel 
+				id="panelEditarBeneficiario" >
+				<p:panelGrid columns="2">
+					<p:inputText id="nombreEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.nombre}"
+						label="nombre" />
+					<p:inputText id="apellidoEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.apellido}"
+						label="apellido" />
+					<p:inputText id="identificacionEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.identificacion}"
+						label="identificacion" />
+					<p:calendar id="fechaNacimientoEditar"
+						value="#{beneficiarioController.fechaTemp}"
+						label="fechaNacimiento" />
+					<p:selectOneMenu id="generoEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.genero}"
+						style="width:125px">
+						<f:selectItem itemLabel="Genero" itemValue="" />
+						<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+						<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+					</p:selectOneMenu>
+					<p:inputText id="celularEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.celular}"
+						label="celular" />
+					<p:inputText id="direccionEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.direccion}"
+						label="direccion" />
+					<p:inputText id="correoEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.correo}"
+						label="correo" />
+					<p:password id="claveEditar"
+						value="#{beneficiarioController.modificadoBeneficiario.clave}"
+						label="clave" feedback="true" match="clave2Editar" />
 
-					<p:column filterBy="#{b.apellido}" headerText="Apellido"
-						footerText="contains" filterMatchMode="contains">
-						<h:outputText value="#{b.apellido}" />
-					</p:column>
-				</p:dataTable>
+					<p:password id="clave2Editar"
+						value="#{beneficiarioController.modificadoBeneficiario.clave}"
+						label="clave" feedback="true" />
 
+					<p:commandButton value="Actualizar"
+						action="#{beneficiarioController.actualizar}"
+						oncomplete="PF('dlgEditarBeneficiario').hide()"
+						update="" />
+
+				</p:panelGrid>
+			</p:outputPanel>
+			<p:watermark for="nombreEditar" value="Nombre" id="wNombreEditar" />
+				<p:watermark for="apellidoEditar" value="Apellido" id="wApellidoEditar" />
+				<p:watermark for="identificacionEditar" value="Identificacion"
+					id="wIdentificacionEditar" />
+				<p:watermark for="fechaNacimientoEditar" value="FechaNacimiento"
+					id="wFechaNacimientoEditar" />
+				<p:watermark for="generoEditar" value="Genero" id="wGeneroEditar" />
+				<p:watermark for="celularEditar" value="Celular" id="wCelularEditar" />
+				<p:watermark for="direccionEditar" value="Direccion" id="wDireccionEditar" />
+				<p:watermark for="correoEditar" value="Correo" id="wCorreoEditar" />
+				<p:watermark for="claveEditar" value="Clave" id="wClaveEditar" />
+				<p:watermark for="clave2Editar" value="Repita clave" id="wClave2Editar" />
+		</p:dialog>
+		
+		<p:dialog header="Crear beneficiario" id="dlgCrearBeneficiario"
+			widgetVar="dlgCrearBeneficiario" modal="true" visible="false">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<p:panelGrid columns="2">
+				<p:inputText id="nombre"
+					value="#{beneficiarioController.nuevoBeneficiario.nombre}"
+					label="nombre" />
+				<p:inputText id="apellido"
+					value="#{beneficiarioController.nuevoBeneficiario.apellido}"
+					label="apellido" />
+				<p:inputText id="identificacion"
+					value="#{beneficiarioController.nuevoBeneficiario.identificacion}"
+					label="identificacion" />
+				<p:calendar id="fechaNacimiento"
+					value="#{beneficiarioController.fechaTemp}" label="fechaNacimiento" />
+				<p:selectOneMenu id="genero"
+					value="#{beneficiarioController.nuevoBeneficiario.genero}"
+					style="width:125px">
+					<f:selectItem itemLabel="Genero" itemValue="" />
+					<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+					<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+				</p:selectOneMenu>
+				<p:inputText id="celular"
+					value="#{beneficiarioController.nuevoBeneficiario.celular}"
+					label="celular" />
+				<p:inputText id="direccion"
+					value="#{beneficiarioController.nuevoBeneficiario.direccion}"
+					label="direccion" />
+				<p:inputText id="correo"
+					value="#{beneficiarioController.nuevoBeneficiario.correo}"
+					label="correo" />
+				<p:password id="clave"
+					value="#{beneficiarioController.nuevoBeneficiario.clave}"
+					label="clave" feedback="true" match="clave2" />
+
+				<p:password id="clave2"
+					value="#{beneficiarioController.nuevoBeneficiario.clave}"
+					label="clave" feedback="true" />
+
+				<p:commandButton value="Guardar"
+					action="#{beneficiarioController.guardar}"
+					oncomplete="PF('dlgCrearBeneficiario').hide()"
+					update="pgBeneficiario" />
 			</p:panelGrid>
+			<p:watermark for="nombre" value="Nombre" id="wNombre" />
+			<p:watermark for="apellido" value="Apellido" id="wApellido" />
+			<p:watermark for="identificacion" value="Identificacion"
+				id="wIdentificacion" />
+			<p:watermark for="fechaNacimiento" value="FechaNacimiento"
+				id="wFechaNacimiento" />
+			<p:watermark for="genero" value="Genero" id="wGenero" />
+			<p:watermark for="celular" value="Celular" id="wCelular" />
+			<p:watermark for="direccion" value="Direccion" id="wDireccion" />
+			<p:watermark for="correo" value="Correo" id="wCorreo" />
+			<p:watermark for="clave" value="Clave" id="wClave" />
+			<p:watermark for="clave2" value="Repita clave" id="wClave2" />
+		</p:dialog>
 
 
-			<div style="clear: both" />
-		</h:form>
-	</div>
-</h:body>
+	</h:form>
 </html>

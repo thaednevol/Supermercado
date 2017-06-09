@@ -62,6 +62,7 @@ public class GestorUsuario extends Gestor implements IGestorUsuario{
 			return entityManager.createQuery("SELECT b FROM Beneficiario b WHERE b.identificacion=:identificacion",Beneficiario.class).setParameter("identificacion", id+"").getSingleResult();
 		}
 		catch (Exception e){
+			e.printStackTrace();
 			return null;
 		}
 			 
@@ -81,6 +82,7 @@ public class GestorUsuario extends Gestor implements IGestorUsuario{
 		r.setId(3);
 		beneficiario.setRol(r);
 		entityManager.persist(beneficiario);
+		
 		entityManager.getTransaction().commit();
 		
 		System.out.println("SE GUARDA -> "+beneficiario.getNombre());

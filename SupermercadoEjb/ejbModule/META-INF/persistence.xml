@@ -8,6 +8,7 @@
 		<class>co.edu.udistrital.mcic.ingsoft.entidad.Rol</class>
 		<class>co.edu.udistrital.mcic.ingsoft.entidad.Permiso</class>
 		<class>co.edu.udistrital.mcic.ingsoft.entidad.Compra</class>
+		<class>co.edu.udistrital.mcic.ingsoft.entidad.Supermercado</class>
 		<properties>
 		    <!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables" /> -->  	
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/Supermercado"/>
